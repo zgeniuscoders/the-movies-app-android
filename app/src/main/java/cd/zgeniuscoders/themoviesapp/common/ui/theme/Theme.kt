@@ -1,4 +1,4 @@
-package cd.zgeniuscoders.themoviesapp.ui.theme
+package cd.zgeniuscoders.themoviesapp.common.ui.theme
 
 import android.app.Activity
 import android.os.Build

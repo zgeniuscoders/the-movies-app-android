@@ -5,4 +5,5 @@ sealed class Route(val route: String){
     data object settingspage: Route("settings")
     data object profile: Route("profile")
     data object search: Route("search_page")
+    data object favorite: Route("favorite_page")
 }

@@ -47,7 +47,7 @@ fun BottomBar(navController: NavHostController) {
             title = "Favoris",
             selectedIcon = Icons.Rounded.Favorite,
             unselectedIcon = Icons.Outlined.Favorite,
-            route = Route.homepage.route
+            route = Route.favorite.route
         ),
         BottomItem(
             title = "Profile",

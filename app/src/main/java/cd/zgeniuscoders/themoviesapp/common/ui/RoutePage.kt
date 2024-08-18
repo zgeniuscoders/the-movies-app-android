@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.components.BottomBar
+import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.HomePage
 
 @Composable
 fun RoutePage(navHostController: NavHostController) {
@@ -20,7 +21,7 @@ fun RoutePage(navHostController: NavHostController) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar(navHostController) }
     ) { innerP ->
         NavHost(
             navController = navHostController,
@@ -30,7 +31,7 @@ fun RoutePage(navHostController: NavHostController) {
                 .padding(innerP)
         ) {
             composable(route = Route.homepage.route){
-
+                HomePage()
             }
         }
     }

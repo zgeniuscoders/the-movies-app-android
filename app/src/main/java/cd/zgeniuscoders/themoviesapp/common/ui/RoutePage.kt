@@ -13,6 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.components.BottomBar
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.HomePage
+import cd.zgeniuscoders.themoviesapp.movies.ui.views.search.SearchPage
 
 @Composable
 fun RoutePage(navHostController: NavHostController) {
@@ -32,6 +33,10 @@ fun RoutePage(navHostController: NavHostController) {
         ) {
             composable(route = Route.homepage.route){
                 HomePage()
+            }
+
+            composable(route = Route.search.route){
+                SearchPage()
             }
         }
     }

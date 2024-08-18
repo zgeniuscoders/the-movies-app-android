@@ -41,7 +41,7 @@ fun BottomBar(navController: NavHostController) {
             title = "Search",
             selectedIcon = Icons.Rounded.Search,
             unselectedIcon = Icons.Outlined.Search,
-            route = Route.homepage.route
+            route = Route.search.route
         ),
         BottomItem(
             title = "Favoris",
@@ -73,7 +73,6 @@ fun BottomBar(navController: NavHostController) {
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = green
                 ),
-                label = { Text(text = bottomItem.title) },
                 icon = {
                     Icon(
                         imageVector = if (selectedItem == index) {

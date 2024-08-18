@@ -1,7 +1,9 @@
 package cd.zgeniuscoders.themoviesapp.common.ui.components
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -15,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import cd.zgeniuscoders.themoviesapp.common.ui.theme.secondaryDark
 
 @Composable
 fun TextFieldComponent(
@@ -22,6 +26,7 @@ fun TextFieldComponent(
     textValue: String,
     label: String,
     keyboardType: KeyboardType,
+    shape: RoundedCornerShape = RoundedCornerShape(5.dp),
     content: @Composable () -> Unit,
     onValueChange: (value: String) -> Unit,
 ) {
@@ -29,16 +34,14 @@ fun TextFieldComponent(
         modifier = modifier.fillMaxWidth(),
         value = textValue,
         onValueChange = { onValueChange(it) },
-        colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = Color.White
-        ),
-        prefix = content,
+        leadingIcon = content,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType
         ),
         placeholder = {
             Text(label)
-        }
+        },
+        shape = shape
     )
 }
 

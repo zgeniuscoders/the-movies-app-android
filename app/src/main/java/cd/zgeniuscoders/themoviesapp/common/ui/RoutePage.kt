@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.components.BottomBar
+import cd.zgeniuscoders.themoviesapp.movies.ui.views.details.DetailPage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.favorite.FavoritePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.HomePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.search.SearchPage
@@ -22,8 +23,19 @@ fun RoutePage(navHostController: NavHostController) {
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
+    val mainPages = listOf(
+        Route.homepage.route,
+        Route.search.route,
+        Route.favorite.route,
+        Route.profile.route
+    )
+
     Scaffold(
-        bottomBar = { BottomBar(navHostController) }
+        bottomBar = {
+            if(currentRoute in mainPages){
+                BottomBar(navHostController)
+            }
+        }
     ) { innerP ->
         NavHost(
             navController = navHostController,
@@ -33,7 +45,7 @@ fun RoutePage(navHostController: NavHostController) {
                 .padding(innerP)
         ) {
             composable(route = Route.homepage.route){
-                HomePage()
+                HomePage(navHostController)
             }
 
             composable(route = Route.search.route){
@@ -41,7 +53,11 @@ fun RoutePage(navHostController: NavHostController) {
             }
 
             composable(route = Route.favorite.route){
-                FavoritePage()
+                FavoritePage(navHostController)
+            }
+
+            composable(route = Route.detail.route){
+                DetailPage(navHostController)
             }
         }
     }

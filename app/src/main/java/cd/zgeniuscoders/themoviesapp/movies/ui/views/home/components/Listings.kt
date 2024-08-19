@@ -21,6 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.theme.green
 import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movies
 
@@ -28,7 +30,8 @@ import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movies
 fun Listings(
     title: String,
     movies: List<Movies>,
-    onclick: () -> Unit = {}
+    onclick: () -> Unit = {},
+    navHostController: NavHostController
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -54,7 +57,11 @@ fun Listings(
     LazyRow {
         items(movies.size) {
             Column(
-                modifier = Modifier.padding(horizontal = 5.dp)
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .clickable {
+                        navHostController.navigate(Route.detail.route)
+                    }
             ) {
                 Card(
                     modifier = Modifier

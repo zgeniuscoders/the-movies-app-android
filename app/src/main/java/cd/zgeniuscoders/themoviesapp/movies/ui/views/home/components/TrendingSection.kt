@@ -6,11 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import cd.zgeniuscoders.themoviesapp.R
 import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movies
 
 @Composable
-fun TrendingSection(modifier: Modifier = Modifier) {
+fun TrendingSection(navHostController: NavHostController) {
     val movies = listOf(
         Movies(
             "nightbooks",
@@ -50,6 +51,6 @@ fun TrendingSection(modifier: Modifier = Modifier) {
             .fillMaxWidth()
     ) {
 
-        Listings(title = "Trending", movies = movies)
+        Listings(title = "Trending", movies = movies,navHostController = navHostController)
     }
 }

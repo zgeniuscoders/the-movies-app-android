@@ -1,6 +1,7 @@
 package cd.zgeniuscoders.themoviesapp.movies.ui.views.favorite
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,16 +26,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import cd.zgeniuscoders.themoviesapp.R
+import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.components.TextFieldComponent
 
 @Composable
-fun FavoritePage(modifier: Modifier = Modifier) {
-    FavoriteBody()
+fun FavoritePage(navHostController: NavHostController) {
+    FavoriteBody(navHostController)
 }
 
 @Composable
-fun FavoriteBody() {
+fun FavoriteBody(navHostController: NavHostController) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +68,11 @@ fun FavoriteBody() {
 
         items(12) {
             Row(
-                modifier = Modifier.padding(5.dp),
+                modifier = Modifier
+                    .padding(5.dp)
+                    .clickable {
+                        navHostController.navigate(Route.detail.route)
+                    },
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Card(
@@ -109,5 +117,5 @@ fun FavoriteBody() {
 @Preview(showBackground = true)
 @Composable
 fun FavoritePreview(modifier: Modifier = Modifier) {
-    FavoriteBody()
+    FavoriteBody(navHostController = rememberNavController())
 }

@@ -10,18 +10,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.components.CategorySection
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.components.HeadSection
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.components.NewReleaseSection
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.components.TrendingSection
 
 @Composable
-fun HomePage(modifier: Modifier = Modifier) {
-    HomeBody()
+fun HomePage(navHostController: NavHostController) {
+    HomeBody(navHostController)
 }
 
 @Composable
-fun HomeBody() {
+fun HomeBody(navHostController: NavHostController) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -41,7 +43,7 @@ fun HomeBody() {
         }
 
         item {
-            NewReleaseSection()
+            NewReleaseSection(navHostController)
         }
 
         item {
@@ -49,7 +51,7 @@ fun HomeBody() {
         }
 
         item {
-            TrendingSection()
+            TrendingSection(navHostController)
         }
 
         item {
@@ -63,6 +65,6 @@ fun HomeBody() {
 @Composable
 fun HomePreview() {
     Surface {
-        HomePage()
+        HomePage(rememberNavController())
     }
 }

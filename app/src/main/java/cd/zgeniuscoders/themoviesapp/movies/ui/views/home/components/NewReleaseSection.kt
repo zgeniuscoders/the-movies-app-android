@@ -7,11 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import cd.zgeniuscoders.themoviesapp.R
 import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movies
 
 @Composable
-fun NewReleaseSection(modifier: Modifier = Modifier) {
+fun NewReleaseSection(navHostController: NavHostController) {
 
     val movies = listOf(
         Movies(
@@ -52,12 +54,12 @@ fun NewReleaseSection(modifier: Modifier = Modifier) {
             .fillMaxWidth()
     ) {
 
-        Listings(title = "New Release", movies = movies)
+        Listings(title = "New Release", movies = movies, navHostController = navHostController)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun NewReleaseSectionPreview() {
-    NewReleaseSection()
+    NewReleaseSection(rememberNavController())
 }

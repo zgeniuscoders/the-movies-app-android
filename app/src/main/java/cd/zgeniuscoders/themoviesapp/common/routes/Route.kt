@@ -16,10 +16,9 @@ sealed class Route(val route: String){
     @Serializable
     data object detail: Route("detail_page")
 
-
 }
 
-
+@Serializable
 data class DetailRoute(
     val movie: Movie
 )

@@ -28,17 +28,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import cd.zgeniuscoders.themoviesapp.R
 import cd.zgeniuscoders.themoviesapp.common.ui.theme.green
 import cd.zgeniuscoders.themoviesapp.common.ui.theme.secondaryDark
+import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movie
 
 @Composable
-fun DetailPage(navHostController: NavHostController) {
-    DetailBody(navHostController)
+fun DetailPage(navHostController: NavHostController, movie: Movie) {
+    DetailBody(navHostController, movie)
 }
 
 @Composable
-fun DetailBody(navHostController: NavHostController) {
+fun DetailBody(navHostController: NavHostController, movie: Movie? = null) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -48,7 +48,7 @@ fun DetailBody(navHostController: NavHostController) {
 
                 Box {
                     Image(
-                        painter = painterResource(id = R.drawable.house_of_horrors),
+                        painter = painterResource(id = movie!!.posterPath),
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -82,7 +82,7 @@ fun DetailBody(navHostController: NavHostController) {
                     modifier = Modifier.padding(10.dp)
                 ) {
                     Text(
-                        "House of Horrors", style = MaterialTheme.typography.titleLarge
+                        movie!!.title, style = MaterialTheme.typography.titleLarge
                     )
                     Spacer(modifier = Modifier.height(10.dp))
 
@@ -116,7 +116,7 @@ fun DetailBody(navHostController: NavHostController) {
                             "Release date",
                         )
                         Text(
-                            text = "December 12 2024",
+                            text = movie!!.releaseDate,
                             color = Color.Gray,
                             style = MaterialTheme.typography.labelLarge
                         )
@@ -124,7 +124,7 @@ fun DetailBody(navHostController: NavHostController) {
                     Column {
                         Text("Genre")
                         Text(
-                            text = "Action",
+                            text = movie!!.category,
                             color = green,
                             style = MaterialTheme.typography.labelLarge
                         )

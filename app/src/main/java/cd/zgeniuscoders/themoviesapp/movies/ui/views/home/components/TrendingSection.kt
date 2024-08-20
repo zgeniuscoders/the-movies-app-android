@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import cd.zgeniuscoders.themoviesapp.common.routes.DetailRoute
 import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movie
 
 @Composable
@@ -17,6 +18,12 @@ fun TrendingSection(navHostController: NavHostController, movies: List<Movie>) {
             .fillMaxWidth()
     ) {
 
-        Listings(title = "Trending", movies = movies,navHostController = navHostController)
+        Listings(title = "Trending", movies = movies, onMovieSelected = { movie ->
+            navHostController.navigate(
+                DetailRoute(
+                    movie = movie
+                )
+            )
+        })
     }
 }

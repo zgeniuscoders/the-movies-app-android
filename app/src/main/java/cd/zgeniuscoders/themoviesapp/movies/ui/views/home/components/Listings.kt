@@ -22,7 +22,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.theme.green
 import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movie
 
@@ -31,7 +30,7 @@ fun Listings(
     title: String,
     movies: List<Movie>,
     onclick: () -> Unit = {},
-    navHostController: NavHostController
+    onMovieSelected: (movie: Movie) -> Unit = {},
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -60,7 +59,7 @@ fun Listings(
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
                     .clickable {
-                        navHostController.navigate(Route.detail.route)
+                        onMovieSelected(movies[it])
                     }
             ) {
                 Card(

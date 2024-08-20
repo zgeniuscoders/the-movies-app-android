@@ -10,6 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.toRoute
+import cd.zgeniuscoders.themoviesapp.common.routes.DetailRoute
 import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.components.BottomBar
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.details.DetailPage
@@ -56,7 +58,8 @@ fun RoutePage(navHostController: NavHostController) {
                 FavoritePage(navHostController)
             }
 
-            composable(route = Route.detail.route){
+            composable<DetailRoute>{
+                val arguments = it.toRoute<DetailRoute>()
                 DetailPage(navHostController)
             }
         }

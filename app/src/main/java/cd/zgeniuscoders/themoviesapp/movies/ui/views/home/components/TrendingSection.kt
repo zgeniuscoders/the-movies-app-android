@@ -7,44 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import cd.zgeniuscoders.themoviesapp.R
-import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movies
+import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movie
 
 @Composable
-fun TrendingSection(navHostController: NavHostController) {
-    val movies = listOf(
-        Movies(
-            "nightbooks",
-            "",
-            R.drawable.nightbooks
-        ),
-        Movies(
-            "coco",
-            "",
-            R.drawable.coco
-        ),
-        Movies(
-            "aladin",
-            "",
-            R.drawable.aladin
-        ),
-        Movies(
-            "matrixt",
-            "",
-            R.drawable.matrix
-        ),
-        Movies(
-            "onward",
-            "",
-            R.drawable.onward
-        ),
-        Movies(
-            "house of horrors",
-            "",
-            R.drawable.house_of_horrors
-        )
-    )
-
+fun TrendingSection(navHostController: NavHostController, movies: List<Movie>) {
     Column(
         modifier = Modifier
             .padding(horizontal = 10.dp)

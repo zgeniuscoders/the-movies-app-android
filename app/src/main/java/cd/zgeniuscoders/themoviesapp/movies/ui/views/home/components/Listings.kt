@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.theme.green
-import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movies
+import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movie
 
 @Composable
 fun Listings(
     title: String,
-    movies: List<Movies>,
+    movies: List<Movie>,
     onclick: () -> Unit = {},
     navHostController: NavHostController
 ) {
@@ -69,7 +69,7 @@ fun Listings(
                         .height(200.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = movies[it].cover),
+                        painter = painterResource(id = movies[it].posterPath),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()

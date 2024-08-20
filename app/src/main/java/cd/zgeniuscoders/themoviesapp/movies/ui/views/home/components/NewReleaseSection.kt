@@ -9,44 +9,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import cd.zgeniuscoders.themoviesapp.R
-import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movies
+import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movie
 
 @Composable
-fun NewReleaseSection(navHostController: NavHostController) {
-
-    val movies = listOf(
-        Movies(
-            "nightbooks",
-            "",
-            R.drawable.nightbooks
-        ),
-        Movies(
-            "coco",
-            "",
-            R.drawable.coco
-        ),
-        Movies(
-            "aladin",
-            "",
-            R.drawable.aladin
-        ),
-        Movies(
-            "matrixt",
-            "",
-            R.drawable.matrix
-        ),
-        Movies(
-            "onward",
-            "",
-            R.drawable.onward
-        ),
-        Movies(
-            "house of horrors",
-            "",
-            R.drawable.house_of_horrors
-        )
-    )
+fun NewReleaseSection(navHostController: NavHostController, movies: List<Movie>) {
 
     Column(
         modifier = Modifier
@@ -56,10 +22,4 @@ fun NewReleaseSection(navHostController: NavHostController) {
 
         Listings(title = "New Release", movies = movies, navHostController = navHostController)
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun NewReleaseSectionPreview() {
-    NewReleaseSection(rememberNavController())
 }

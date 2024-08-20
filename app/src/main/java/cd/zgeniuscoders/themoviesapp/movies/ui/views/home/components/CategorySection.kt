@@ -14,22 +14,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cd.zgeniuscoders.themoviesapp.common.ui.theme.green
+import cd.zgeniuscoders.themoviesapp.movies.domain.models.Category
 
 @Composable
-fun CategorySection(modifier: Modifier = Modifier) {
+fun CategorySection(categories: List<Category>) {
     val currentItem = remember {
         mutableIntStateOf(0)
     }
 
-    val categories = listOf(
-        "All",
-        "Actions",
-        "Dramatics",
-        "Horrors",
-        "Science Fiction",
-        "Romantics"
-    )
-    
+
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,7 +30,7 @@ fun CategorySection(modifier: Modifier = Modifier) {
     ) {
         items(categories.size) {
             Text(
-                text = categories[it],
+                text = categories[it].name,
                 style = MaterialTheme.typography.titleMedium,
                 color = if (currentItem.value == it) green else Color.Gray,
                 modifier = Modifier
@@ -48,10 +41,4 @@ fun CategorySection(modifier: Modifier = Modifier) {
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CategorySectionPreview(modifier: Modifier = Modifier) {
-    CategorySection()
 }

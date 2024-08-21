@@ -7,5 +7,7 @@ data class HomeState(
     val isLoading: Boolean = false,
     val movies: List<Movie> = emptyList(),
     val categories: List<Category> = emptyList(),
-    val error: Throwable? = null
+    val selectedCategory: String = "all",
+    val error: Throwable? = null,
+    val originMoviesList: List<Movie> = emptyList(),
 )

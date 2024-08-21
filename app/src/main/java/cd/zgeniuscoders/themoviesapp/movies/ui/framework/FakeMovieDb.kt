@@ -14,7 +14,7 @@ class FakeMovieDb{
                 "December 11 2022",
                 R.drawable.nightbooks,
                 "",
-                ""
+                "Mysteries"
             ),
             Movie(
                 2,
@@ -23,7 +23,7 @@ class FakeMovieDb{
                 "Jan 11 2024",
                 R.drawable.coco,
                 "",
-                "",
+                "Kids",
             ),
             Movie(
                 3,
@@ -32,7 +32,7 @@ class FakeMovieDb{
                 "March 11 2023",
                 R.drawable.aladin,
                 "",
-                ""
+                "Comedies"
             ),
             Movie(
                 4,
@@ -41,7 +41,7 @@ class FakeMovieDb{
                 "May 11 2023",
                 R.drawable.matrix,
                 "",
-                ""
+                "Sci-Fi & Fantasy"
             ),
             Movie(
                 5,
@@ -50,7 +50,7 @@ class FakeMovieDb{
                 "May 11 2023",
                 R.drawable.onward,
                 "",
-                ""
+                "Comedies"
             ),
             Movie(
                 6,
@@ -59,7 +59,7 @@ class FakeMovieDb{
                 "May 11 2023",
                 R.drawable.house_of_horrors,
                 "",
-                ""
+                "Horrors"
             )
         )
         fun getMovies(): List<Movie> {

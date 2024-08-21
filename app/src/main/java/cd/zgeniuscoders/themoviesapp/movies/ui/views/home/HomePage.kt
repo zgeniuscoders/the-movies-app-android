@@ -1,5 +1,6 @@
 package cd.zgeniuscoders.themoviesapp.movies.ui.views.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,17 +23,23 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomePage(navHostController: NavHostController) {
     val vm = koinViewModel<HomeViewModel>()
+    val onEvent = vm::onTriggerEvent
 
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         vm.getMovies()
         vm.getCategories()
     }
 
-    HomeBody(navHostController, vm.state)
+
+    HomeBody(navHostController, vm.state,onEvent)
 }
 
 @Composable
-fun HomeBody(navHostController: NavHostController, state: HomeState) {
+fun HomeBody(
+    navHostController: NavHostController,
+    state: HomeState,
+    onEvent: (event: HomeEvent) -> Unit = {}
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -44,7 +51,7 @@ fun HomeBody(navHostController: NavHostController, state: HomeState) {
         }
 
         item {
-            CategorySection(state.categories)
+            CategorySection(state.categories,onEvent)
         }
 
         item {

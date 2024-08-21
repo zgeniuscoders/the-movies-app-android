@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -21,15 +22,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cd.zgeniuscoders.themoviesapp.R
 import cd.zgeniuscoders.themoviesapp.common.ui.components.TextFieldComponent
-import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.components.CategorySection
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SearchPage(modifier: Modifier = Modifier) {
-    SearchBody()
+fun SearchPage() {
+    val vm = koinViewModel<SearchViewModel>()
+    val event = vm::onTriggerEvent
+
+    LaunchedEffect(Unit) {
+        vm.getMovies()
+    }
+
+    SearchBody(vm.state,event)
 }
 
 @Composable
-fun SearchBody() {
+fun SearchBody(state: SearchState, event: (event: SearchEvent) -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,15 +53,16 @@ fun SearchBody() {
 
         TextFieldComponent(
             modifier = Modifier.padding(10.dp),
-            textValue = "",
+            textValue = state.search,
             label = "Recherche...",
             keyboardType = KeyboardType.Text,
             shape = RoundedCornerShape(50.dp),
+            onValueChange = {
+                event(SearchEvent.OnSearchChanged(it))
+            },
             content = {
                 Icon(Icons.Rounded.Search, contentDescription = "search icon")
-            }) {
-
-        }
+            })
 
 
 //        CategorySection()
@@ -63,13 +72,13 @@ fun SearchBody() {
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxSize()
         ) {
-            items(12) {
+            items(state.movies.size) {
                 Column(
                     modifier = Modifier.padding(5.dp)
                 ) {
                     Card {
                         Image(
-                            painter = painterResource(id = R.drawable.onward),
+                            painter = painterResource(id = state.movies[it].posterPath),
                             contentDescription = null
                         )
                     }
@@ -85,5 +94,5 @@ fun SearchBody() {
 @Preview(showBackground = true)
 @Composable
 fun SearchPreview(modifier: Modifier = Modifier) {
-    SearchBody()
+    SearchBody(SearchState())
 }

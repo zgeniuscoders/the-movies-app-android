@@ -5,6 +5,7 @@ import cd.zgeniuscoders.themoviesapp.movies.domain.interactors.MovieInteractor
 import cd.zgeniuscoders.themoviesapp.movies.ui.framework.FakeCategoryServiceImpl
 import cd.zgeniuscoders.themoviesapp.movies.ui.framework.FakeMovieServiceImpl
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.HomeViewModel
+import cd.zgeniuscoders.themoviesapp.movies.ui.views.search.SearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -25,6 +26,13 @@ val moviesModule = module {
         val categoryInteractor=get<CategoryInteractor>()
 
         HomeViewModel(movieInteractor,categoryInteractor)
+    }
+
+    viewModel<SearchViewModel> {
+        val movieInteractor=get<MovieInteractor>()
+        val categoryInteractor=get<CategoryInteractor>()
+
+        SearchViewModel(movieInteractor,categoryInteractor)
     }
 
 }

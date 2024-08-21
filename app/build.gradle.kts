@@ -2,12 +2,13 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    kotlin("plugin.serialization") version "2.0.10"
     id("kotlin-kapt")
 }
 
 android {
     namespace = "cd.zgeniuscoders.themoviesapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "cd.zgeniuscoders.themoviesapp"
@@ -91,5 +92,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     implementation(libs.androidx.material.icons.extended.android)
+
+    implementation(libs.kotlinx.serialization.json)
 
 }

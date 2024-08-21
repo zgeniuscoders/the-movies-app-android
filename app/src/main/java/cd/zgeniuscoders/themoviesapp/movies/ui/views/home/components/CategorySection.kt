@@ -8,50 +8,57 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cd.zgeniuscoders.themoviesapp.common.ui.theme.green
+import cd.zgeniuscoders.themoviesapp.movies.domain.models.Category
+import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.HomeEvent
 
 @Composable
-fun CategorySection(modifier: Modifier = Modifier) {
+fun CategorySection(categories: List<Category>, onEvent: (event: HomeEvent) -> Unit) {
     val currentItem = remember {
-        mutableIntStateOf(0)
+        mutableStateOf("all")
     }
 
-    val categories = listOf(
-        "All",
-        "Actions",
-        "Dramatics",
-        "Horrors",
-        "Science Fiction",
-        "Romantics"
-    )
-    
+
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
     ) {
-        items(categories.size) {
+        item {
             Text(
-                text = categories[it],
+                text = "all",
                 style = MaterialTheme.typography.titleMedium,
-                color = if (currentItem.value == it) green else Color.Gray,
+                color = if (currentItem.value == "all") green else Color.Gray,
                 modifier = Modifier
                     .padding(horizontal = 10.dp)
                     .clickable {
-                        currentItem.value = it
+                        currentItem.value = "all"
+                        onEvent(
+                            HomeEvent.OnCategoryChange("all")
+                        )
+                    }
+            )
+        }
+        items(categories.size) {
+            val categoryName = categories[it].name
+            Text(
+                text = categoryName,
+                style = MaterialTheme.typography.titleMedium,
+                color = if (currentItem.value == categoryName) green else Color.Gray,
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .clickable {
+                        currentItem.value = categoryName
+                        onEvent(
+                            HomeEvent.OnCategoryChange(categoryName)
+                        )
                     }
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CategorySectionPreview(modifier: Modifier = Modifier) {
-    CategorySection()
 }

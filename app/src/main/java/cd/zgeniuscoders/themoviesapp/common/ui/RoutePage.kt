@@ -10,12 +10,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.toRoute
+import cd.zgeniuscoders.themoviesapp.common.routes.CustomNavType
+import cd.zgeniuscoders.themoviesapp.common.routes.DetailRoute
 import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.components.BottomBar
+import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movie
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.details.DetailPage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.favorite.FavoritePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.HomePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.search.SearchPage
+import kotlin.reflect.typeOf
 
 @Composable
 fun RoutePage(navHostController: NavHostController) {
@@ -49,15 +54,23 @@ fun RoutePage(navHostController: NavHostController) {
             }
 
             composable(route = Route.search.route){
-                SearchPage()
+                SearchPage(navHostController)
             }
 
             composable(route = Route.favorite.route){
                 FavoritePage(navHostController)
             }
 
-            composable(route = Route.detail.route){
-                DetailPage(navHostController)
+            composable<DetailRoute>(
+                typeMap = mapOf(
+                    typeOf<Movie>() to CustomNavType.MovieType
+                )
+            ) {
+                val arguments = it.toRoute<DetailRoute>()
+                DetailPage(
+                    navHostController = navHostController,
+                    movie = arguments.movie
+                )
             }
         }
     }

@@ -1,5 +1,6 @@
 package cd.zgeniuscoders.themoviesapp.movies.ui.views.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,14 +18,28 @@ import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.components.CategorySec
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.components.HeadSection
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.components.NewReleaseSection
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.components.TrendingSection
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomePage(navHostController: NavHostController) {
-    HomeBody(navHostController)
+    val vm = koinViewModel<HomeViewModel>()
+    val onEvent = vm::onTriggerEvent
+
+    LaunchedEffect(Unit) {
+        vm.getMovies()
+        vm.getCategories()
+    }
+
+
+    HomeBody(navHostController, vm.state,onEvent)
 }
 
 @Composable
-fun HomeBody(navHostController: NavHostController) {
+fun HomeBody(
+    navHostController: NavHostController,
+    state: HomeState,
+    onEvent: (event: HomeEvent) -> Unit = {}
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -35,7 +51,7 @@ fun HomeBody(navHostController: NavHostController) {
         }
 
         item {
-            CategorySection()
+            CategorySection(state.categories,onEvent)
         }
 
         item {
@@ -43,7 +59,7 @@ fun HomeBody(navHostController: NavHostController) {
         }
 
         item {
-            NewReleaseSection(navHostController)
+            NewReleaseSection(navHostController, state.movies)
         }
 
         item {
@@ -51,7 +67,7 @@ fun HomeBody(navHostController: NavHostController) {
         }
 
         item {
-            TrendingSection(navHostController)
+            TrendingSection(navHostController, state.movies)
         }
 
         item {
@@ -65,6 +81,6 @@ fun HomeBody(navHostController: NavHostController) {
 @Composable
 fun HomePreview() {
     Surface {
-        HomePage(rememberNavController())
+        HomeBody(rememberNavController(), HomeState())
     }
 }

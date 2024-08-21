@@ -22,16 +22,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.theme.green
-import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movies
+import cd.zgeniuscoders.themoviesapp.movies.domain.models.Movie
 
 @Composable
 fun Listings(
     title: String,
-    movies: List<Movies>,
+    movies: List<Movie>,
     onclick: () -> Unit = {},
-    navHostController: NavHostController
+    onMovieSelected: (movie: Movie) -> Unit = {},
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -60,7 +59,7 @@ fun Listings(
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
                     .clickable {
-                        navHostController.navigate(Route.detail.route)
+                        onMovieSelected(movies[it])
                     }
             ) {
                 Card(
@@ -69,7 +68,7 @@ fun Listings(
                         .height(200.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = movies[it].cover),
+                        painter = painterResource(id = movies[it].posterPath),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()

@@ -3,10 +3,12 @@ package cd.zgeniuscoders.themoviesapp.movies.ui.views.favorite
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -28,17 +32,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import cd.zgeniuscoders.themoviesapp.R
+import cd.zgeniuscoders.themoviesapp.common.routes.DetailRoute
 import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.components.TextFieldComponent
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FavoritePage(navHostController: NavHostController) {
-    FavoriteBody(navHostController)
+    val vm = koinViewModel<FavoriteViewModel>()
+    val onEvent = vm::onTriggerEvent
+
+    LaunchedEffect(Unit) {
+        vm.getFavoriteMovies()
+    }
+
+    FavoriteBody(navHostController, vm.state)
 }
 
 @Composable
-fun FavoriteBody(navHostController: NavHostController) {
+fun FavoriteBody(navHostController: NavHostController, state: FavoriteState) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -66,45 +78,67 @@ fun FavoriteBody(navHostController: NavHostController) {
             }
         }
 
-        items(12) {
-            Row(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .clickable {
-                        navHostController.navigate(Route.detail.route)
-                    },
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Card(
+        if (state.movies.isNotEmpty()) {
+            items(state.movies.size) {
+                val movie = state.movies[it]
+                Row(
                     modifier = Modifier
-                        .width(150.dp)
-                        .height(220.dp)
+                        .padding(5.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            navHostController.navigate(
+                                DetailRoute(
+                                    movie = movie
+                                )
+                            )
+                        },
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.onward),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
+                    Card(
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(220.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = movie.posterPath),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                    Column {
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        Text(
+                            movie.title, style = MaterialTheme.typography.titleLarge
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        Text(
+                            movie.synopsis,
+                            color = Color.Gray
+                        )
+
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text("Release Date")
+                        Text(
+                            movie.releaseDate,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.Gray
+                        )
+                    }
                 }
-                Column {
-                    Spacer(modifier = Modifier.height(10.dp))
-
+            }
+        } else {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp),
+                    contentAlignment = Alignment.Center
+                ) {
                     Text(
-                        "OnWard", style = MaterialTheme.typography.titleLarge
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Text(
-                        "Un message de verification vous a été envoyer Par l’addresse email zgeniusco ders@gmail.com",
-                        color = Color.Gray
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text("Release Date")
-                    Text(
-                        "18 December 2024",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
+                        "No favorite movies found.",
+                        style = MaterialTheme.typography.titleLarge
                     )
                 }
             }
@@ -117,5 +151,5 @@ fun FavoriteBody(navHostController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun FavoritePreview(modifier: Modifier = Modifier) {
-    FavoriteBody(navHostController = rememberNavController())
+    FavoriteBody(navHostController = rememberNavController(), state = FavoriteState())
 }

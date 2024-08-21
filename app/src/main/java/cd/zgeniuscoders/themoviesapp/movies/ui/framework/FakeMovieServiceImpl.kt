@@ -12,4 +12,12 @@ class FakeMovieServiceImpl : MovieServices {
     override suspend fun getMovies(): List<Movie> {
         return FakeMovieDb.getMovies()
     }
+
+    override suspend fun addMovie(movie: Movie) {
+
+    }
+
+    override suspend fun deleteMovie(movie: Movie) {
+
+    }
 }

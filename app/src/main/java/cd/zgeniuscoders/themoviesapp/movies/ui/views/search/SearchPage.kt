@@ -1,6 +1,7 @@
 package cd.zgeniuscoders.themoviesapp.movies.ui.views.search
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,12 +21,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cd.zgeniuscoders.themoviesapp.R
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import cd.zgeniuscoders.themoviesapp.common.routes.DetailRoute
 import cd.zgeniuscoders.themoviesapp.common.ui.components.TextFieldComponent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SearchPage() {
+fun SearchPage(navHostController: NavHostController) {
     val vm = koinViewModel<SearchViewModel>()
     val event = vm::onTriggerEvent
 
@@ -33,11 +36,15 @@ fun SearchPage() {
         vm.getMovies()
     }
 
-    SearchBody(vm.state,event)
+    SearchBody(vm.state,event,navHostController)
 }
 
 @Composable
-fun SearchBody(state: SearchState, event: (event: SearchEvent) -> Unit = {}) {
+fun SearchBody(
+    state: SearchState,
+    event: (event: SearchEvent) -> Unit = {},
+    navHostController: NavHostController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +81,15 @@ fun SearchBody(state: SearchState, event: (event: SearchEvent) -> Unit = {}) {
         ) {
             items(state.movies.size) {
                 Column(
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .clickable {
+                            navHostController.navigate(
+                                DetailRoute(
+                                    movie = state.movies[it]
+                                )
+                            )
+                        }
                 ) {
                     Card {
                         Image(
@@ -94,5 +109,5 @@ fun SearchBody(state: SearchState, event: (event: SearchEvent) -> Unit = {}) {
 @Preview(showBackground = true)
 @Composable
 fun SearchPreview(modifier: Modifier = Modifier) {
-    SearchBody(SearchState())
+    SearchBody(SearchState(), navHostController = rememberNavController())
 }

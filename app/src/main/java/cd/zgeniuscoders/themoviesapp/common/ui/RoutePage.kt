@@ -54,7 +54,7 @@ fun RoutePage(navHostController: NavHostController) {
             }
 
             composable(route = Route.search.route){
-                SearchPage()
+                SearchPage(navHostController)
             }
 
             composable(route = Route.favorite.route){

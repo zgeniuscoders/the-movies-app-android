@@ -40,8 +40,6 @@ class HomeViewModel(
 
             state = state.copy(movies = filteredMovies)
 
-            Log.i("MPVIES", state.movies.toString())
-
         }
 
     }

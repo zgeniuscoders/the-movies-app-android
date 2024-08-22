@@ -20,6 +20,7 @@ import cd.zgeniuscoders.themoviesapp.movies.ui.views.details.DetailPage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.favorite.FavoritePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.HomePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.search.SearchPage
+import cd.zgeniuscoders.themoviesapp.users.ui.views.profile.ProfilePage
 import kotlin.reflect.typeOf
 
 @Composable
@@ -59,6 +60,10 @@ fun RoutePage(navHostController: NavHostController) {
 
             composable(route = Route.favorite.route){
                 FavoritePage(navHostController)
+            }
+
+            composable(route = Route.profile.route){
+                ProfilePage(navHostController)
             }
 
             composable<DetailRoute>(

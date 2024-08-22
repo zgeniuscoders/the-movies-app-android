@@ -2,6 +2,7 @@ package cd.zgeniuscoders.themoviesapp.common
 
 import android.app.Application
 import cd.zgeniuscoders.themoviesapp.movies.di.moviesModule
+import cd.zgeniuscoders.themoviesapp.users.di.userModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -12,7 +13,8 @@ class MyApplication : Application() {
         startKoin{
             androidContext(applicationContext)
             modules(
-                moviesModule
+                moviesModule,
+                userModule
             )
         }
     }

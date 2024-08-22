@@ -53,7 +53,7 @@ fun BottomBar(navController: NavHostController) {
             title = "Profile",
             selectedIcon = Icons.Rounded.Person,
             unselectedIcon = Icons.Outlined.Person,
-            route = Route.homepage.route
+            route = Route.profile.route
         ),
     )
 

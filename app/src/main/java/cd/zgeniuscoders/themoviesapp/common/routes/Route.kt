@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Route(val route: String){
 
+    data object splashscreen : Route("splashscreen")
+
     @Serializable
     data object homepage: Route("home_page")
     data object settingspage: Route("settings")

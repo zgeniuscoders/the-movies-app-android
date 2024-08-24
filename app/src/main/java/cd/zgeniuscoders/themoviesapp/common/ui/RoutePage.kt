@@ -45,11 +45,16 @@ fun RoutePage(navHostController: NavHostController) {
     ) { innerP ->
         NavHost(
             navController = navHostController,
-            startDestination = Route.homepage.route,
+            startDestination = Route.splashscreen.route,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerP)
         ) {
+
+            composable(route = Route.splashscreen.route){
+                SplashScreen(navHostController)
+            }
+
             composable(route = Route.homepage.route){
                 HomePage(navHostController)
             }

@@ -48,7 +48,7 @@ class HomeViewModel(
     suspend fun getMovies() {
 
         val movies = movieInteractor.getMovies.run()
-        state = state.copy(movies = movies, originMoviesList = movies)
+        state = state.copy(movies = movies, originMoviesList = movies, isLoading = false)
 
     }
 

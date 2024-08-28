@@ -20,7 +20,11 @@ import cd.zgeniuscoders.themoviesapp.movies.ui.views.details.DetailPage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.favorite.FavoritePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.HomePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.search.SearchPage
+import cd.zgeniuscoders.themoviesapp.users.ui.views.forgot_password.ForgotPasswordPage
+import cd.zgeniuscoders.themoviesapp.users.ui.views.login.LoginPage
 import cd.zgeniuscoders.themoviesapp.users.ui.views.profile.ProfilePage
+import cd.zgeniuscoders.themoviesapp.users.ui.views.register.RegisterPage
+import cd.zgeniuscoders.themoviesapp.users.ui.views.reset_password.ResetPasswordPage
 import kotlin.reflect.typeOf
 
 @Composable
@@ -53,6 +57,22 @@ fun RoutePage(navHostController: NavHostController) {
 
             composable(route = Route.splashscreen.route){
                 SplashScreen(navHostController)
+            }
+
+            composable(route = Route.login.route) {
+                LoginPage(navHostController)
+            }
+
+            composable(route = Route.register.route) {
+                RegisterPage(navHostController)
+            }
+
+            composable(route = Route.forgot_password.route) {
+                ForgotPasswordPage(navHostController)
+            }
+
+            composable(route = Route.reset_password.route) {
+                ResetPasswordPage(navHostController)
             }
 
             composable(route = Route.homepage.route){

@@ -1,12 +1,16 @@
 package cd.zgeniuscoders.themoviesapp.common.ui.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -16,6 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -24,6 +30,7 @@ fun TextFieldComponent(
     modifier: Modifier = Modifier,
     textValue: String,
     label: String,
+    key: String? = null,
     keyboardType: KeyboardType,
     shape: RoundedCornerShape = RoundedCornerShape(5.dp),
     colors: TextFieldColors = TextFieldDefaults.colors(
@@ -31,23 +38,41 @@ fun TextFieldComponent(
         disabledIndicatorColor = Color.Transparent,
         unfocusedIndicatorColor = Color.Transparent
     ),
-    content: @Composable (() -> Unit?)? = null,
+    trailingIcon: @Composable() (() -> Unit)? = null,
+    leadingIcon: @Composable() (() -> Unit)? = null,
+    isPasswordField: Boolean = false,
+    errors: HashMap<String, List<String>>? = null,
     onValueChange: (value: String) -> Unit,
 ) {
-    TextField(
-        modifier = modifier.fillMaxWidth(),
-        value = textValue,
-        onValueChange = { onValueChange(it) },
-        leadingIcon = null,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType
-        ),
-        colors = colors,
-        placeholder = {
-            Text(label)
-        },
-        shape = shape
-    )
+    Column {
+        TextField(
+            modifier = modifier.fillMaxWidth(),
+            value = textValue,
+            onValueChange = { onValueChange(it) },
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
+            visualTransformation = if (isPasswordField) PasswordVisualTransformation() else VisualTransformation.None,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType
+            ),
+            colors = colors,
+            placeholder = {
+                Text(label)
+            },
+            shape = shape,
+            isError = errors?.containsKey(key) == true
+        )
+        if (errors?.containsKey(key) == true) {
+            Spacer(modifier = Modifier.height(10.dp))
+            errors[key]?.firstOrNull()?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.Red
+                )
+            }
+        }
+    }
 }
 
 @Preview
@@ -58,7 +83,7 @@ fun TextFieldComponentPreview(){
         TextFieldComponent(
             textValue = "", label = "Email",
             keyboardType = KeyboardType.Email,
-            content = {
+            leadingIcon = {
                 Icon(Icons.Filled.Email, contentDescription = null)
             }
         ) {

@@ -7,6 +7,9 @@ data class RegisterState(
     val confirmPassword: String = "",
     val hasFormError: Boolean = false,
     val error: String = "",
-    val isFormValidated: Boolean = false
-
+    val errors: HashMap<String, List<String>>? = null,
+    val isFormValidated: Boolean = false,
+    val showPassword: Boolean = true,
+    val showConfirmPassword: Boolean= true,
+    val isLogged: Boolean = false
 )

@@ -3,14 +3,21 @@ package cd.zgeniuscoders.themoviesapp.common.ui
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
+import cd.zgeniuscoders.themoviesapp.common.UserSettings
+import cd.zgeniuscoders.themoviesapp.common.extension.dataStore
 import cd.zgeniuscoders.themoviesapp.common.routes.CustomNavType
 import cd.zgeniuscoders.themoviesapp.common.routes.DetailRoute
 import cd.zgeniuscoders.themoviesapp.common.routes.Route
@@ -30,6 +37,7 @@ import kotlin.reflect.typeOf
 @Composable
 fun RoutePage(navHostController: NavHostController) {
 
+    val snackbarHostState = remember { SnackbarHostState() }
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
@@ -40,7 +48,13 @@ fun RoutePage(navHostController: NavHostController) {
         Route.profile.route
     )
 
+    val context = LocalContext.current
+    val authState = context.dataStore.data.collectAsState(initial = UserSettings())
+
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        },
         bottomBar = {
             if(currentRoute in mainPages){
                 BottomBar(navHostController)
@@ -60,19 +74,43 @@ fun RoutePage(navHostController: NavHostController) {
             }
 
             composable(route = Route.login.route) {
-                LoginPage(navHostController)
+                if (authState.value.isLogged) {
+                    navHostController.navigate(Route.homepage.route) {
+                        popUpTo<Route.login> { inclusive = true }
+                    }
+                } else {
+                    LoginPage(navHostController)
+                }
             }
 
             composable(route = Route.register.route) {
-                RegisterPage(navHostController)
+//                if (authState.value.isLogged) {
+//                    navHostController.navigate(Route.homepage.route) {
+//                        popUpTo<Route.register> { inclusive = true }
+//                    }
+//                } else {
+                    RegisterPage(navHostController, snackbarHostState)
+//                }
             }
 
             composable(route = Route.forgot_password.route) {
-                ForgotPasswordPage(navHostController)
+                if (authState.value.isLogged) {
+                    navHostController.navigate(Route.homepage.route) {
+                        popUpTo<Route.forgot_password> { inclusive = true }
+                    }
+                } else {
+                    ForgotPasswordPage(navHostController)
+                }
             }
 
             composable(route = Route.reset_password.route) {
-                ResetPasswordPage(navHostController)
+                if (authState.value.isLogged) {
+                    navHostController.navigate(Route.homepage.route) {
+                        popUpTo<Route.reset_password> { inclusive = true }
+                    }
+                } else {
+                    ResetPasswordPage(navHostController)
+                }
             }
 
             composable(route = Route.homepage.route){

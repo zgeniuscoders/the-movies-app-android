@@ -56,6 +56,8 @@ fun LoginBody(
             color = green
         )
 
+        Text("Prêt(e) à découvrir ton prochain coup de cœur ?")
+
         Spacer(modifier = Modifier.height(20.dp))
 
 
@@ -69,7 +71,7 @@ fun LoginBody(
         Spacer(modifier = Modifier.height(10.dp))
 
         TextFieldComponent(
-            textValue = "",
+            textValue = state.password,
             label = "Mot de passe",
             keyboardType = KeyboardType.Password,
             onValueChange = { onEvent(LoginEvent.OnPasswordChanged(it)) }

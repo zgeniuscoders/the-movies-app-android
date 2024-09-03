@@ -6,4 +6,6 @@ sealed class RegisterEvent {
     data class OnPasswordChanged(val value: String) : RegisterEvent()
     data class OnConfirmPasswordChanged(val value: String) : RegisterEvent()
     data object OnFormSubmitted: RegisterEvent()
+    data object OnShowPassword : RegisterEvent()
+    data object OnShowConfirmPassword : RegisterEvent()
 }

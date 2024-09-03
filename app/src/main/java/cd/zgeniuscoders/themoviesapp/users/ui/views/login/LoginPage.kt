@@ -69,7 +69,7 @@ fun LoginBody(
         Spacer(modifier = Modifier.height(10.dp))
 
         TextFieldComponent(
-            textValue = "",
+            textValue = state.password,
             label = "Mot de passe",
             keyboardType = KeyboardType.Password,
             onValueChange = { onEvent(LoginEvent.OnPasswordChanged(it)) }

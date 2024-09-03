@@ -1,6 +1,8 @@
 package cd.zgeniuscoders.themoviesapp.users.di
 
+import cd.zgeniuscoders.themoviesapp.users.domain.services.UserApi
 import cd.zgeniuscoders.themoviesapp.users.domain.services.UserService
+import cd.zgeniuscoders.themoviesapp.users.domain.use_cases.UserInteractor
 import cd.zgeniuscoders.themoviesapp.users.ui.framework.UserServiceImpl
 import cd.zgeniuscoders.themoviesapp.users.ui.views.forgot_password.ForgotPasswordViewModel
 import cd.zgeniuscoders.themoviesapp.users.ui.views.login.LoginViewModel
@@ -8,13 +10,30 @@ import cd.zgeniuscoders.themoviesapp.users.ui.views.opt_verification.OptVerifica
 import cd.zgeniuscoders.themoviesapp.users.ui.views.profile.ProfileViewModel
 import cd.zgeniuscoders.themoviesapp.users.ui.views.register.RegisterViewModel
 import cd.zgeniuscoders.themoviesapp.users.ui.views.reset_password.ResetPasswordViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 val userModule = module {
 
+    single<UserApi> {
+        Retrofit.Builder()
+            .baseUrl("http://10.224.196.180:8000")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(UserApi::class.java)
+    }
+
     single<UserService> {
-        UserServiceImpl()
+        val api = get<UserApi>()
+        UserServiceImpl(api)
+    }
+
+    single<UserInteractor> {
+        val service = get<UserService>()
+        UserInteractor.build(service)
     }
 
     viewModel<ProfileViewModel> {
@@ -22,13 +41,16 @@ val userModule = module {
     }
 
     viewModel<LoginViewModel> {
-        val service = get<UserService>()
-        LoginViewModel(service)
+        val interactor = get<UserInteractor>()
+        LoginViewModel(interactor)
     }
 
     viewModel<RegisterViewModel> {
-        val service = get<UserService>()
-        RegisterViewModel(service)
+
+        val interactor = get<UserInteractor>()
+        val context = androidContext()
+
+        RegisterViewModel(interactor, context)
     }
 
     viewModel<ResetPasswordViewModel> {

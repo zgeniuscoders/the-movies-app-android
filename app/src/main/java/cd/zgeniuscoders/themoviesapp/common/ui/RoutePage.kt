@@ -3,8 +3,11 @@ package cd.zgeniuscoders.themoviesapp.common.ui
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -30,6 +33,7 @@ import kotlin.reflect.typeOf
 @Composable
 fun RoutePage(navHostController: NavHostController) {
 
+    val snackbarHostState = remember { SnackbarHostState() }
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
@@ -41,6 +45,9 @@ fun RoutePage(navHostController: NavHostController) {
     )
 
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        },
         bottomBar = {
             if(currentRoute in mainPages){
                 BottomBar(navHostController)
@@ -64,7 +71,7 @@ fun RoutePage(navHostController: NavHostController) {
             }
 
             composable(route = Route.register.route) {
-                RegisterPage(navHostController)
+                RegisterPage(navHostController,snackbarHostState)
             }
 
             composable(route = Route.forgot_password.route) {

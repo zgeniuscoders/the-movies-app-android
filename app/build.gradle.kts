@@ -78,16 +78,16 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.androidx.navigation.navigation.compose)
 
-    implementation(libs.koin.core)
-    implementation(libs.koin.androidx.compose)
-
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-
     //    room database
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
     annotationProcessor(libs.androidx.room.compiler)
+
+    implementation(libs.retrofit.v290)
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+//    datastore
+    implementation(libs.androidx.datastore)
 
     implementation(libs.androidx.room.ktx)
 

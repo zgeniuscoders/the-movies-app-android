@@ -1,5 +1,6 @@
 package cd.zgeniuscoders.themoviesapp.users.ui.views.profile
 
 data class ProfileState(
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val isLogout: Boolean = false
 )

@@ -37,7 +37,8 @@ val userModule = module {
     }
 
     viewModel<ProfileViewModel> {
-        ProfileViewModel()
+        val context = androidContext()
+        ProfileViewModel(context)
     }
 
     viewModel<LoginViewModel> {

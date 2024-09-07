@@ -70,7 +70,7 @@ fun FavoriteBody(navHostController: NavHostController, state: FavoriteState) {
                 label = "Recherche...",
                 keyboardType = KeyboardType.Text,
                 shape = RoundedCornerShape(50.dp),
-                content = {
+                leadingIcon = {
                     Icon(Icons.Rounded.Search, contentDescription = "search icon")
                 }) {
 

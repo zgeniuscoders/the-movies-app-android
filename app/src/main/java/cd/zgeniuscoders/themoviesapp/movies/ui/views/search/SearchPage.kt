@@ -74,7 +74,7 @@ fun SearchBody(
                 disabledIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),
-            content = {
+            leadingIcon = {
                 Icon(Icons.Rounded.Search, contentDescription = "search icon")
             })
 

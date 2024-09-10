@@ -1,12 +1,12 @@
 package cd.zgeniuscoders.themoviesapp.users.domain.services
 
-import cd.zgeniuscoders.themoviesapp.users.domain.entities.UserEntity
 import cd.zgeniuscoders.themoviesapp.users.domain.models.Response.UserResponse
+import kotlinx.serialization.Serializable
 import okhttp3.RequestBody
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
+
 
 interface UserApi {
 

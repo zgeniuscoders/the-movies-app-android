@@ -20,7 +20,7 @@ val userModule = module {
 
     single<UserApi> {
         Retrofit.Builder()
-            .baseUrl("http://192.168.0.101:8000")
+            .baseUrl("http://192.168.43.87:8000")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(UserApi::class.java)
@@ -28,7 +28,9 @@ val userModule = module {
 
     single<UserService> {
         val api = get<UserApi>()
-        UserServiceImpl(api)
+        val context = androidContext()
+
+        UserServiceImpl(api, context)
     }
 
     single<UserInteractor> {
@@ -43,6 +45,7 @@ val userModule = module {
 
     viewModel<LoginViewModel> {
         val interactor = get<UserInteractor>()
+
         LoginViewModel(interactor)
     }
 

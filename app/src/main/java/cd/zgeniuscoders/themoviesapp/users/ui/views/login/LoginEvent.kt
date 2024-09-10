@@ -5,4 +5,5 @@ sealed class LoginEvent {
     data class OnPasswordChanged(val value: String) : LoginEvent()
     data class OnRememberMeChanged(val value: Boolean) : LoginEvent()
     data object OnFormSubmitted : LoginEvent()
+    data object OnShowPassword: LoginEvent()
 }

@@ -2,6 +2,7 @@ package cd.zgeniuscoders.themoviesapp.common
 
 import androidx.datastore.core.Serializer
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

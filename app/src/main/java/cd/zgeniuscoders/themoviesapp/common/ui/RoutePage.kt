@@ -51,6 +51,7 @@ fun RoutePage(navHostController: NavHostController) {
     val context = LocalContext.current
     val authState = context.dataStore.data.collectAsState(initial = UserSettings())
 
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackbarHostState)
@@ -79,18 +80,18 @@ fun RoutePage(navHostController: NavHostController) {
                         popUpTo<Route.login> { inclusive = true }
                     }
                 } else {
-                    LoginPage(navHostController)
+                    LoginPage(navHostController, snackbarHostState)
                 }
             }
 
             composable(route = Route.register.route) {
-//                if (authState.value.isLogged) {
-//                    navHostController.navigate(Route.homepage.route) {
-//                        popUpTo<Route.register> { inclusive = true }
-//                    }
-//                } else {
+                if (authState.value.isLogged) {
+                    navHostController.navigate(Route.homepage.route) {
+                        popUpTo<Route.register> { inclusive = true }
+                    }
+                } else {
                     RegisterPage(navHostController, snackbarHostState)
-//                }
+                }
             }
 
             composable(route = Route.forgot_password.route) {

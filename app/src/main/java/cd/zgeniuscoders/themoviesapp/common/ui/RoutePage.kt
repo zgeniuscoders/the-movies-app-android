@@ -3,14 +3,21 @@ package cd.zgeniuscoders.themoviesapp.common.ui
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
+import cd.zgeniuscoders.themoviesapp.common.UserSettings
+import cd.zgeniuscoders.themoviesapp.common.extension.dataStore
 import cd.zgeniuscoders.themoviesapp.common.routes.CustomNavType
 import cd.zgeniuscoders.themoviesapp.common.routes.DetailRoute
 import cd.zgeniuscoders.themoviesapp.common.routes.Route
@@ -20,12 +27,17 @@ import cd.zgeniuscoders.themoviesapp.movies.ui.views.details.DetailPage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.favorite.FavoritePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.home.HomePage
 import cd.zgeniuscoders.themoviesapp.movies.ui.views.search.SearchPage
+import cd.zgeniuscoders.themoviesapp.users.ui.views.forgot_password.ForgotPasswordPage
+import cd.zgeniuscoders.themoviesapp.users.ui.views.login.LoginPage
 import cd.zgeniuscoders.themoviesapp.users.ui.views.profile.ProfilePage
+import cd.zgeniuscoders.themoviesapp.users.ui.views.register.RegisterPage
+import cd.zgeniuscoders.themoviesapp.users.ui.views.reset_password.ResetPasswordPage
 import kotlin.reflect.typeOf
 
 @Composable
 fun RoutePage(navHostController: NavHostController) {
 
+    val snackbarHostState = remember { SnackbarHostState() }
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
@@ -36,7 +48,14 @@ fun RoutePage(navHostController: NavHostController) {
         Route.profile.route
     )
 
+    val context = LocalContext.current
+    val authState = context.dataStore.data.collectAsState(initial = UserSettings())
+
+
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        },
         bottomBar = {
             if(currentRoute in mainPages){
                 BottomBar(navHostController)
@@ -45,11 +64,56 @@ fun RoutePage(navHostController: NavHostController) {
     ) { innerP ->
         NavHost(
             navController = navHostController,
-            startDestination = Route.homepage.route,
+            startDestination = Route.splashscreen.route,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerP)
         ) {
+
+            composable(route = Route.splashscreen.route){
+                SplashScreen(navHostController)
+            }
+
+            composable(route = Route.login.route) {
+                if (authState.value.isLogged) {
+                    navHostController.navigate(Route.homepage.route) {
+                        popUpTo<Route.login> { inclusive = true }
+                    }
+                } else {
+                    LoginPage(navHostController, snackbarHostState)
+                }
+            }
+
+            composable(route = Route.register.route) {
+                if (authState.value.isLogged) {
+                    navHostController.navigate(Route.homepage.route) {
+                        popUpTo<Route.register> { inclusive = true }
+                    }
+                } else {
+                    RegisterPage(navHostController, snackbarHostState)
+                }
+            }
+
+            composable(route = Route.forgot_password.route) {
+                if (authState.value.isLogged) {
+                    navHostController.navigate(Route.homepage.route) {
+                        popUpTo<Route.forgot_password> { inclusive = true }
+                    }
+                } else {
+                    ForgotPasswordPage(navHostController)
+                }
+            }
+
+            composable(route = Route.reset_password.route) {
+                if (authState.value.isLogged) {
+                    navHostController.navigate(Route.homepage.route) {
+                        popUpTo<Route.reset_password> { inclusive = true }
+                    }
+                } else {
+                    ResetPasswordPage(navHostController)
+                }
+            }
+
             composable(route = Route.homepage.route){
                 HomePage(navHostController)
             }

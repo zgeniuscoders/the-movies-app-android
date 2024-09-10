@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import cd.zgeniuscoders.themoviesapp.common.routes.DetailRoute
-import cd.zgeniuscoders.themoviesapp.common.routes.Route
 import cd.zgeniuscoders.themoviesapp.common.ui.components.TextFieldComponent
 import org.koin.androidx.compose.koinViewModel
 
@@ -71,7 +70,7 @@ fun FavoriteBody(navHostController: NavHostController, state: FavoriteState) {
                 label = "Recherche...",
                 keyboardType = KeyboardType.Text,
                 shape = RoundedCornerShape(50.dp),
-                content = {
+                leadingIcon = {
                     Icon(Icons.Rounded.Search, contentDescription = "search icon")
                 }) {
 

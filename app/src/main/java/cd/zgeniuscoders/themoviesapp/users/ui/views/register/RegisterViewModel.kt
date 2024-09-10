@@ -1,20 +1,18 @@
 package cd.zgeniuscoders.themoviesapp.users.ui.views.register
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cd.zgeniuscoders.themoviesapp.common.extension.dataStore
+import cd.zgeniuscoders.themoviesapp.common.UserSettings
 import cd.zgeniuscoders.themoviesapp.users.domain.models.Request.RegisterRequest
 import cd.zgeniuscoders.themoviesapp.users.domain.use_cases.UserInteractor
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
-    private val interactor: UserInteractor,
-    private val context: Context
+    private val interactor: UserInteractor
 ) : ViewModel() {
 
     var state by mutableStateOf(RegisterState())
@@ -84,9 +82,9 @@ class RegisterViewModel(
                 if (userResponse.status) {
                     state =
                         state.copy(hasFormError = false, isFormValidated = true, isLogged = true)
-                    context.dataStore.updateData {
-                        it.copy(isLogged = true, token = userResponse.token)
-                    }
+
+                    interactor.saveUserPref.run(UserSettings(true, userResponse.token))
+
                 } else {
                     state = state.copy(
                         hasFormError = true,

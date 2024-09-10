@@ -39,8 +39,9 @@ val userModule = module {
     }
 
     viewModel<ProfileViewModel> {
-        val context = androidContext()
-        ProfileViewModel(context)
+        val interactor = get<UserInteractor>()
+
+        ProfileViewModel(interactor)
     }
 
     viewModel<LoginViewModel> {
@@ -52,9 +53,8 @@ val userModule = module {
     viewModel<RegisterViewModel> {
 
         val interactor = get<UserInteractor>()
-        val context = androidContext()
 
-        RegisterViewModel(interactor, context)
+        RegisterViewModel(interactor)
     }
 
     viewModel<ResetPasswordViewModel> {

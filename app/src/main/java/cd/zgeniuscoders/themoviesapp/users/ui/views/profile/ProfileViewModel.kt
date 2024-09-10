@@ -1,16 +1,16 @@
 package cd.zgeniuscoders.themoviesapp.users.ui.views.profile
 
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cd.zgeniuscoders.themoviesapp.common.extension.dataStore
+import cd.zgeniuscoders.themoviesapp.common.UserSettings
+import cd.zgeniuscoders.themoviesapp.users.domain.use_cases.UserInteractor
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-    private val context: Context
+    private val userInteractor: UserInteractor
 ) : ViewModel() {
 
     var state by mutableStateOf(ProfileState())
@@ -24,9 +24,7 @@ class ProfileViewModel(
 
     private fun logout(){
         viewModelScope.launch {
-            context.dataStore.updateData {
-                it.copy(isLogged = false, token = null)
-            }
+            userInteractor.saveUserPref.run(UserSettings(false, ""))
             state = state.copy(isLogout = true)
         }
 

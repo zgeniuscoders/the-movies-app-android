@@ -84,16 +84,18 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
 
     implementation(libs.retrofit.v290)
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.converter.gson)
 
 //    datastore
     implementation(libs.androidx.datastore)
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.androidx.room.ktx)
 
     implementation(libs.androidx.material.icons.extended.android)
 
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.constraintlayout.compose)
 
 }
